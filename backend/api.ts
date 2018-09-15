@@ -23,6 +23,7 @@ export const init = (router: Router, io: SocketIO.Server) => {
     };
   });
   io.on('connection', socket => {
+    console.log('client connected');
     const state = getState();
 
     socket.emit('state', {
@@ -40,7 +41,7 @@ export const init = (router: Router, io: SocketIO.Server) => {
   router.post('/queue', async ctx => {
     const body = ctx.request.body as QueueBody;
     if (!body || !body.songId) {
-      return ctx.throw(400, 'unsupported song ID');
+      return ctx.throw(400, 'error', { message: 'song ID not provided' });
     }
 
     let songId: string | undefined;
@@ -50,12 +51,13 @@ export const init = (router: Router, io: SocketIO.Server) => {
       const status = enqueue(song);
       if (status) {
         console.log(status);
-        ctx.throw(400, status);
+        ctx.throw(400, 'error', { message: status });
       }
 
+      io.emit('state', getState(), { for: 'everyone' });
       ctx.body = { status: 'ok' };
     } else {
-      ctx.throw(400, 'unsupported song ID');
+      ctx.throw(400, 'error', { message: 'unsupported song ID' });
     }
   });
 
@@ -68,7 +70,7 @@ export const init = (router: Router, io: SocketIO.Server) => {
       if (status) {
         console.log(status);
         io.emit('playback', getState().playback, { for: 'everyone' });
-        ctx.throw(400, status);
+        ctx.throw(400, 'error', { message: status });
       }
     } else if (body.state === 'pause') {
       stopPlayback(true);
@@ -85,6 +87,8 @@ export const init = (router: Router, io: SocketIO.Server) => {
       { for: 'everyone' },
     );
 
+    io.emit('state', getState(), { for: 'everyone' });
+
     ctx.body = { status: 'ok' };
   });
 
@@ -95,8 +99,10 @@ export const init = (router: Router, io: SocketIO.Server) => {
     const status = dequeue(uuid);
     if (status) {
       console.log(status);
-      ctx.throw(404, status);
+      ctx.throw(404, 'error', { message: status });
     }
+
+    io.emit('state', getState(), { for: 'everyone' });
 
     ctx.body = { status: 'ok' };
   });

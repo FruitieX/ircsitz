@@ -57,7 +57,7 @@ export const getCurrentSong = (): Song | undefined =>
  */
 export const enqueue = (song: Song) => {
   if (song.duration > config.maxSongDuration) {
-    throw new Error('Song is too long.');
+    return 'Song is too long.';
   }
 
   if (config.noDuplicates) {

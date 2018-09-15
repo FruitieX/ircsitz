@@ -12,7 +12,7 @@ import SocketIO from 'socket.io';
  */
 
 const app = new Koa();
-app.use(cors());
+//app.use(cors());
 app.use(bodyParser());
 const prefix = '/api/v1';
 const router = new Router({ prefix });
