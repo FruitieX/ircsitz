@@ -4,11 +4,8 @@
   "version": "1.0.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
-    "@material-ui/core": "^3.0.3",
-    "gatsby": "2.0.0-rc.8",
-    "gatsby-plugin-jss": "^2.0.2-rc.1",
-    "gatsby-plugin-react-helmet": "3.0.0-rc.1",
-    "gatsby-plugin-typescript": "2.0.0-rc.1",
+    "gatsby": "2.0.0-rc.4",
+    "gatsby-plugin-typescript": "2.0.0-rc.4",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-helmet": "^5.2.0",

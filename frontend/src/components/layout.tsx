@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
-import CssBaseline from '@material-ui/core/CssBaseline'
 
 import Header from './header'
 
@@ -23,7 +22,6 @@ const Layout = ({ children }: Props) => (
     `}
     render={data => (
       <>
-        <CssBaseline />
         <Helmet
           title={data.site.siteMetadata.title}
           meta={[
