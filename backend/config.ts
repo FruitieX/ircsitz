@@ -4,9 +4,9 @@ interface Config {
   }
   maxSongDuration: number
   noDuplicates: boolean
-  host: 'http://localhost:3000'
+  host: string
   apiRoot: string
-  port: 3000
+  port: number
 }
 
 const config: Config = {
@@ -15,8 +15,8 @@ const config: Config = {
   },
   maxSongDuration: 480000, // 8 minutes
   noDuplicates: true,
-  host: 'http://localhost:3000',
-  apiRoot: 'http://localhost:3000/api/v1',
+  host: 'http://player.fruitiex.org',
+  apiRoot: 'http://player.fruitiex.org/api/v1',
   port: 3000,
 }
 
