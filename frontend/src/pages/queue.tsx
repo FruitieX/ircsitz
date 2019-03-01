@@ -1,6 +1,7 @@
 import React from "react"
 
 import Layout from "../components/layout"
+import io from "socket.io-client"
 import { State, PlaybackEvent, Song } from "../../types"
 import config from "../../config"
 import axios from "axios"
