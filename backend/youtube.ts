@@ -59,7 +59,7 @@ export const getSongInfo = async (songId: string) => {
     songId,
     uuid: uuid.v4(),
     backend: 'youtube',
-    thumbnailUrl: ytSong.snippet.thumbnails.standard.url,
+    thumbnailUrl: ytSong.snippet.thumbnails && ytSong.snippet.thumbnails.medium && ytSong.snippet.thumbnails.medium.url,
     title: ytSong.snippet.title,
     duration: ytDurationToMillis(ytSong.contentDetails.duration),
   };
