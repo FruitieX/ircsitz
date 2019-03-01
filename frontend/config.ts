@@ -15,8 +15,8 @@ const config: Config = {
   },
   maxSongDuration: 480000, // 8 minutes
   noDuplicates: true,
-  host: 'http://player.fruitiex.org',
-  apiRoot: 'http://player.fruitiex.org/api/v1',
+  host: 'http://ircsitz.fruitiex.org',
+  apiRoot: 'http://ircsitz.fruitiex.org/api/v1',
   port: 3000,
 }
 
