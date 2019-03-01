@@ -1,35 +1,35 @@
-import React from 'react'
+import React from "react"
 
-import Layout from '../components/layout'
-import { State, PlaybackEvent, Song } from '../../types'
-import config from '../../config'
-import request from 'superagent'
+import Layout from "../components/layout"
+import { State, PlaybackEvent, Song } from "../../types"
+import config from "../../config"
+import axios from "axios"
 
 interface ComponentState {
-  loading: boolean;
-  inputField: string;
-  error: string;
+  loading: boolean
+  inputField: string
+  error: string
   queue: Song[]
 }
 
 function msToTime(duration: number) {
-  var milliseconds = parseInt((duration % 1000) / 100)
-    , seconds = parseInt((duration / 1000) % 60)
-    , minutes = parseInt((duration / (1000 * 60)) % 60)
-    , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+  var milliseconds = parseInt((duration % 1000) / 100),
+    seconds = parseInt((duration / 1000) % 60),
+    minutes = parseInt((duration / (1000 * 60)) % 60),
+    hours = parseInt((duration / (1000 * 60 * 60)) % 24)
 
-  hours = (hours < 10) ? "0" + hours : hours;
-  minutes = (minutes < 10) ? "0" + minutes : minutes;
-  seconds = (seconds < 10) ? "0" + seconds : seconds;
+  hours = hours < 10 ? "0" + hours : hours
+  minutes = minutes < 10 ? "0" + minutes : minutes
+  seconds = seconds < 10 ? "0" + seconds : seconds
 
-  return hours + ":" + minutes + ":" + seconds;
+  return hours + ":" + minutes + ":" + seconds
 }
 
 class IndexPage extends React.Component<{}, ComponentState> {
   state: ComponentState = {
     loading: false,
-    inputField: '',
-    error: '',
+    inputField: "",
+    error: "",
     queue: [],
   }
 
@@ -43,35 +43,37 @@ class IndexPage extends React.Component<{}, ComponentState> {
 
   queueSong = async () => {
     const songId = this.state.inputField
-    console.log('queuing song', songId)
+    console.log("queuing song", songId)
 
     this.setState(() => ({
       loading: true,
-      error: '',
+      error: "",
     }))
     try {
-      await request.post(`${config.apiRoot}/queue`).send({ songId })
+      await axios.post(`${config.apiRoot}/queue`, { songId })
 
       this.setState(() => ({
         loading: false,
-        inputField: '',
+        inputField: "",
       }))
     } catch (err) {
       this.setState(() => ({
         loading: false,
-        error: err && err.response && err.response.text
+        error: err && err.response && err.response.text,
       }))
     }
   }
-  socket: SocketIOClient.Socket | undefined;
+  socket: SocketIOClient.Socket | undefined
 
   componentDidMount() {
     const socket = io(config.host)
     this.socket = socket
 
-    socket.on('state', (state: State) => {
+    socket.on("state", (state: State) => {
       this.setState(() => ({
-        queue: state.playlist.songs.filter((song, index) => index >= state.playlist.currentPos)
+        queue: state.playlist.songs.filter(
+          (song, index) => index >= state.playlist.currentPos
+        ),
       }))
     })
   }
@@ -84,11 +86,11 @@ class IndexPage extends React.Component<{}, ComponentState> {
 
   renderSong = (song: Song) => {
     return (
-    <div key={song.uuid}>
-      <img width="100px" src={song.thumbnailUrl} />
-      {song.title} {msToTime(song.duration)}
-    </div>
-    );
+      <div key={song.uuid}>
+        <img width="100px" src={song.thumbnailUrl} />
+        {song.title} {msToTime(song.duration)}
+      </div>
+    )
   }
 
   render() {
@@ -103,10 +105,10 @@ class IndexPage extends React.Component<{}, ComponentState> {
         </ul>
 
         <input value={this.state.inputField} onChange={this.changeInput} />
-        <button onClick={this.queueSong} disabled={this.state.loading}>Submit</button>
-        <div>
-{ this.state.error }
-        </div>
+        <button onClick={this.queueSong} disabled={this.state.loading}>
+          Submit
+        </button>
+        <div>{this.state.error}</div>
 
         <h2>queue</h2>
 
