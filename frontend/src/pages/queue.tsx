@@ -106,7 +106,7 @@ class IndexPage extends React.Component<{}, ComponentState> {
           <li>https://youtu.be/dQw4w9WgXcQ</li>
         </ul>
 
-        <input value={this.state.inputField} onChange={this.changeInput} />
+        <input value={this.state.inputField} onChange={this.changeInput} style={{ width: '100%', maxWidth: '300px' }}/>
         <button onClick={this.queueSong} disabled={this.state.loading}>
           Submit
         </button>

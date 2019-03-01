@@ -2,7 +2,9 @@ import React from "react"
 import Layout from "../components/layout"
 import GatsbyLink from "gatsby-link"
 
-const NotFoundPage = () => (
+import "./styles.css"
+
+const Main = () => (
   <Layout>
     <div>
       <GatsbyLink to="/player">Player</GatsbyLink>
@@ -13,4 +15,4 @@ const NotFoundPage = () => (
   </Layout>
 )
 
-export default NotFoundPage
+export default Main
