@@ -6,6 +6,8 @@ import { State, Song } from "../../types"
 import config from "../../config"
 import axios from "axios"
 
+import "./styles.css"
+
 interface ComponentState {
   loading: boolean
   inputField: string

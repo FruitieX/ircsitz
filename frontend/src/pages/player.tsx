@@ -6,6 +6,8 @@ import { PlaybackEvent } from "../../types"
 import axios from "axios"
 import config from "../../config"
 
+import "./styles.css"
+
 const initPlayer = async (id: string) => {
   // yuck, ew.
   // https://developers.google.com/youtube/iframe_api_reference
