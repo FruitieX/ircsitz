@@ -104,12 +104,10 @@ export const startPlayback = (seek?: number, skip?: number) => {
   const numSongs = state.playlist.songs.length;
 
   if (skip) {
-    console.log(state.playlist.currentPos);
     state.playlist.currentPos = Math.max(
       0,
       Math.min(state.playlist.currentPos + skip, numSongs),
     );
-    console.log(state.playlist.currentPos);
   }
 
   if (state.playlist.currentPos >= numSongs) {
