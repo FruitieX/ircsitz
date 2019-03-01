@@ -2,7 +2,7 @@ import React from "react"
 
 import Layout from "../components/layout"
 import io from "socket.io-client"
-import { State, PlaybackEvent } from "../../types"
+import { PlaybackEvent } from "../../types"
 import axios from "axios"
 import config from "../../config"
 
@@ -11,13 +11,15 @@ const initPlayer = async (id: string) => {
   // https://developers.google.com/youtube/iframe_api_reference
 
   return new Promise(resolve => {
-    var tag = document.createElement("script")
+    const tag = document.createElement("script")
 
     tag.src = "https://www.youtube.com/iframe_api"
-    var firstScriptTag = document.getElementsByTagName("script")[0]
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+    const firstScriptTag = document.getElementsByTagName("script")[0]
+    firstScriptTag.parentNode!.insertBefore(tag, firstScriptTag)
 
+    // @ts-ignore
     window.onYouTubeIframeAPIReady = function() {
+      // @ts-ignore
       var player = new YT.Player(id, {
         events: {
           onReady: function() {
@@ -29,12 +31,12 @@ const initPlayer = async (id: string) => {
   })
 }
 
-const attachPlayerStateHandler = function(player, handler) {
+const attachPlayerStateHandler = function(player: any, handler: any) {
   player.addEventListener("onStateChange", handler)
 }
 
 class Player extends React.Component {
-  player?: {}
+  player?: any
   io?: {}
 
   callYTPlayer = (
@@ -53,7 +55,7 @@ class Player extends React.Component {
   async componentDidMount() {
     this.player = await initPlayer("player")
 
-    attachPlayerStateHandler(this.player, async event => {
+    attachPlayerStateHandler(this.player, async (event: any) => {
       console.log("YT player event", event)
 
       // Video ended

@@ -2,7 +2,7 @@ import React from "react"
 
 import Layout from "../components/layout"
 import io from "socket.io-client"
-import { State, PlaybackEvent, Song } from "../../types"
+import { State, Song } from "../../types"
 import config from "../../config"
 import axios from "axios"
 
@@ -13,15 +13,10 @@ interface ComponentState {
   queue: Song[]
 }
 
-function msToTime(duration: number) {
-  var milliseconds = parseInt((duration % 1000) / 100),
-    seconds = parseInt((duration / 1000) % 60),
-    minutes = parseInt((duration / (1000 * 60)) % 60),
-    hours = parseInt((duration / (1000 * 60 * 60)) % 24)
-
-  hours = hours < 10 ? "0" + hours : hours
-  minutes = minutes < 10 ? "0" + minutes : minutes
-  seconds = seconds < 10 ? "0" + seconds : seconds
+const msToTime = (duration: number) => {
+  const seconds = String((duration / 1000) % 60).padStart(2, "0")
+  const minutes = String((duration / (1000 * 60)) % 60).padStart(2, "0")
+  const hours = String((duration / (1000 * 60 * 60)) % 24).padStart(2, "0")
 
   return hours + ":" + minutes + ":" + seconds
 }
@@ -89,7 +84,7 @@ class IndexPage extends React.Component<{}, ComponentState> {
     return (
       <div key={song.uuid}>
         <img width="100px" src={song.thumbnailUrl} />
-        {song.title} {msToTime(song.duration)}
+        {song.title} {msToTime(Number(song.duration))}
       </div>
     )
   }
